@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/layout">
+<head>
+    <link th:href="@{'css/dataTables.bootstrap.css'}" rel="stylesheet"/>
+    <!-- Jquery DataTable Plugin Js -->
+    <script th:src="@{'js/jquery.dataTables.js'}"></script>
+    <script th:src="@{'js/dataTables.bootstrap.js'}"></script>
+    <script th:src="@{'js/jquery-datatable.js'}"></script>
+</head>
+<body>
+    <div layout:fragment="content" class="content" role="main">
+        <a href="../../manageUsers#reigsterUser">Register User</a>
+        <!--Datatable with all users data starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+
+                            <div class="alert alert-success" th:if="${msgSuccess}">
+                                <button type="button" aria-hidden="true" class="close">×</button>
+                                <span th:utext="${msgSuccess}"></span>
+                            </div>
+
+                            <div class="alert alert-success" th:if="${msgError}">
+                                <button type="button" aria-hidden="true" class="close">×</button>
+                                <span th:utext="${msgError}"></span>
+                            </div>
+
+                            <h4 class="title">Registered Users</h4>
+                            <hr/>
+                        </div>
+                        <div class="body">
+                            <!--Table with all information of users which have edit and delete button-->
+                            <div class="table-responsive">
+                                <table id="example" class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Full Name</th>
+                                        <th>Username</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Full Name</th>
+                                            <th>Username</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr th:each="userList : ${userLists}">
+                                            <td th:text="${userList.id}">Onions</td>
+                                            <td th:text="${userList.fullname}">System Architect</td>
+                                            <td th:text="${userList.username}">Edinburgh</td>
+                                            <td><a th:href="@{'/manageUsers/edit'+ ${userList.id}}"> <i class="ti-pencil"></i></a> | <a th:href="@{'/manageUsers/delete/'+ ${userList.id}}"> <i class="ti-trash"></i></a></td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                        </div>
+                        <div class="footer"></div>
+                    </div>
+                </div>
+             </div>
+       </div> <!-- Datatable with all users data ends-->
+        <!--Adding new user starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+
+                            <div class="alert alert-success" th:if="${successMessage}">
+                                <button type="button" aria-hidden="true" class="close">×</button>
+                                <span th:utext="${successMessage}"></span>
+                            </div>
+
+                            <h5>Add a new user</h5>
+                            <hr/>
+                        </div>
+                        <div class="body" >
+                            <form th:action="@{/manageUsers}" action="#" method="POST" th:object="${user}" role="form" id="reigsterUser">
+
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="fullname" class="form-control border-input"  name="fullname"  th:field="*{fullname}" th:placeholder="fullname" required="required"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input type="username" class="form-control border-input"  name="username"  th:field="*{username}" th:placeholder="username" required="required"/>
+                                    <label
+                                            th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                                            class="validation-message"></label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" class="form-control border-input"  name="password"  th:field="*{password}" th:placeholder="password" required="required" pattern=".{6,}" title="Six or more characters"/>
+                                </div>
+
+
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-info btn-fill btn-wd">Register</button>
+                                </div><br/>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--Adding new user ends-->
+    </div>
+</body>
+
+
+</html>
